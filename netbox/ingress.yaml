@@ -4,6 +4,7 @@ metadata:
   name: netbox
   labels:
     app: netbox
+  namespace: monitoring
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-http
 spec:

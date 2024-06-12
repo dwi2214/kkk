@@ -2,6 +2,9 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: netbox-media
+  labels:
+    app: netbox
+  namespace: monitoring
 spec:
   accessModes:
     - ReadWriteOnce

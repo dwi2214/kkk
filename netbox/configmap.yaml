@@ -4,6 +4,7 @@ metadata:
   name: netbox-env
   labels:
     app: netbox
+  namespace: monitoring
 data:
   DB_HOST: postgres
   DB_NAME: netbox
