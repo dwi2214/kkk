@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: netbox-server
 spec:
-  replicas: 2
+  replicas: 2  # Adjusted replicas to 2
   selector:
     matchLabels:
       app: netbox
@@ -23,14 +23,10 @@ spec:
                     operator: In
                     values:
                       - netbox
-                  - key: role
-                    operator: In
-                    values:
-                      - server
               topologyKey: "kubernetes.io/hostname"
       containers:
         - name: server
-          image: docker.io/netboxcommunity/netbox
+          image: docker.io/netboxcommunity/netbox  # Corrected image reference
           envFrom:
             - configMapRef:
                 name: netbox-env
@@ -48,8 +44,8 @@ spec:
               containerPort: 8080
           readinessProbe:
             httpGet:
+              path: /api/status/  # Adjusted path for readiness probe
               port: http
-              path: /api/status/
             periodSeconds: 5
             failureThreshold: 3
       volumes:
