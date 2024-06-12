@@ -18,11 +18,11 @@ spec:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
-            - matchExpressions:
-              - key: kubernetes.io/hostname
-                operator: In
-                values:
-                - node-01
+              - matchExpressions:
+                - key: mama
+                  operator: In
+                  values:
+                  - saya
       containers:
         - name: server
           image: docker.io/netboxcommunity/netbox  # Corrected image reference
