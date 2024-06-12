@@ -15,15 +15,14 @@ spec:
         role: server
     spec:
       affinity:
-        podAntiAffinity:
+        nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchExpressions:
-                  - key: app
-                    operator: In
-                    values:
-                      - netbox
-              topologyKey: "kubernetes.io/hostname"
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - node-01
       containers:
         - name: server
           image: docker.io/netboxcommunity/netbox  # Corrected image reference
