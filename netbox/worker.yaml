@@ -27,13 +27,6 @@ spec:
                 name: netbox-env
             - secretRef:
                 name: netbox-secret-key
-          volumeMounts:
-            - mountPath: /media
-              name: media
-            - mountPath: /opt/netbox/netbox/reports
-              name: reports
-            - mountPath: /opt/netbox/netbox/scripts
-              name: scripts
           args:
             - /opt/netbox/venv/bin/python
             - /opt/netbox/netbox/manage.py
