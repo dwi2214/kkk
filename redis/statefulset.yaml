@@ -11,8 +11,7 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: netbox
-      role: housekeeping
+      app: redis-netbox
 
 
   template:
