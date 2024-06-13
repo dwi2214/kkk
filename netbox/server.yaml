@@ -43,3 +43,9 @@ spec:
               port: http
             periodSeconds: 5
             failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /api/status/err  # Adjusted path for readiness probe
+              port: http
+            periodSeconds: 5
+            failureThreshold: 3
