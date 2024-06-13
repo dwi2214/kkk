@@ -39,8 +39,8 @@ spec:
         - name: housekeeping
           image: docker.io/testingsite279/uitoep:porl1
           envFrom:
-            # - configMapRef:
-            #     name: netbox-env
+            - configMapRef:
+                name: netbox-env
             - secretRef:
                 name: netbox-secret-key
           args:
