@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: netbox-housekeeping
+  namespace: monitoring  
 spec:
   replicas: 2
   selector:
@@ -19,6 +20,21 @@ spec:
         app: netbox
         role: housekeeping
     spec:
+      tolerations:
+      - key: "namespace"
+        operator: "Equal"
+        value: "staging"
+        effect: "NoSchedule"
+      nodeSelector:
+        name: "app-worker-node"
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app: netbox
+                role: housekeeping
+            topologyKey: "kubernetes.io/hostname"
       containers:
         - name: housekeeping
           image: docker.io/netboxcommunity/netbox
@@ -28,11 +44,4 @@ spec:
             - secretRef:
                 name: netbox-secret-key
           args:
-            - /opt/netbox/housekeeping.sh
-      tolerations:
-      - key: "namespace"
-        operator: "Equal"
-        value: "staging"
-        effect: "NoSchedule"
-      nodeSelector:
-        name: "app-worker-node"            
+            - /opt/netbox/housekeeping.sh     

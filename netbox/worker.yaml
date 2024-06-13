@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: netbox-worker
+  namespace: monitoring  
 spec:
   replicas: 2
   selector:
@@ -19,6 +20,21 @@ spec:
         app: netbox
         role: worker
     spec:
+      tolerations:
+      - key: "namespace"
+        operator: "Equal"
+        value: "staging"
+        effect: "NoSchedule"
+      nodeSelector:
+        name: "app-worker-node"
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app: netbox
+                role: worker
+            topologyKey: "kubernetes.io/hostname"
       containers:
         - name: worker
           image: docker.io/netboxcommunity/netbox
@@ -31,10 +47,3 @@ spec:
             - /opt/netbox/venv/bin/python
             - /opt/netbox/netbox/manage.py
             - rqworker
-      tolerations:
-      - key: "namespace"
-        operator: "Equal"
-        value: "staging"
-        effect: "NoSchedule"
-      nodeSelector:
-        name: "app-worker-node"

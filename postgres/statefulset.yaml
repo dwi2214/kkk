@@ -1,29 +1,27 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: postgres
+  name: postgres-netbox
+  namespace: monitoring  
 spec:
   selector:
     matchLabels:
-      app: postgres
-  serviceName: postgres
-  replicas: 2  # Adjusted replicas to 2
+      app: postgres-netbox
+  serviceName: postgres-netbox
+  replicas: 2
+  selector:
+    matchLabels:
+      app: postgres-netbox
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
   template:
     metadata:
       labels:
-        app: postgres
+        app: postgres-netbox
     spec:
-      containers:
-        - name: postgres
-          image: postgres:14
-          ports:
-            - containerPort: 5432
-          envFrom:
-            - configMapRef:
-                name: postgres-secret
-          volumeMounts:
-            - mountPath: /var/lib/postgresql/data
-              name: postgres-data
       tolerations:
       - key: "namespace"
         operator: "Equal"
@@ -31,9 +29,28 @@ spec:
         effect: "NoSchedule"
       nodeSelector:
         name: "app-worker-node"
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchLabels:
+                app: postgres-netbox
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+        - name: postgres
+          image: postgres:14
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: postgres-netbox-secret
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-netbox-data
+
   volumeClaimTemplates:
     - metadata:
-        name: postgres-data
+        name: postgres-netbox-data
       spec:
         accessModes:
           - ReadWriteOnce

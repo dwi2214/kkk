@@ -19,6 +19,7 @@ metadata:
   name: netbox-loadbalancer
   labels:
     app: netbox
+  namespace: monitoring  
 spec:
   type: LoadBalancer
   selector:

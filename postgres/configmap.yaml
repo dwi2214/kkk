@@ -1,9 +1,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: postgres-secret
+  name: postgres-netbox-secret
   labels:
-    app: postgres
+    app: postgres-netbox
+  namespace: monitoring  
 data:
   POSTGRES_DB: netbox
   POSTGRES_USER: netbox
