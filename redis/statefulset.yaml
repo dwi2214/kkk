@@ -7,7 +7,12 @@ spec:
     matchLabels:
       app: redis
   serviceName: redis
-  replicas: 1
+  replicas: 2  # Adjusted replicas to 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
   template:
     metadata:
       labels:
@@ -22,6 +27,13 @@ spec:
           volumeMounts:
             - mountPath: /data
               name: redis-data
+      tolerations:
+      - key: "namespace"
+        operator: "Equal"
+        value: "staging"
+        effect: "NoSchedule"
+      nodeSelector:
+        name: "app-worker-node"
   volumeClaimTemplates:
     - metadata:
         name: redis-data
