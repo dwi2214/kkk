@@ -1,0 +1,20 @@
+git clone https://github.com/dwi2214/kkk.git -b removevolume
+alias kpod='kubectl get pod -n monitoring -o wide '
+
+cd /opt/kkk/redis && kubectl apply -f .
+!
+cd /opt/kkk/postgres/ && kubectl apply -f .
+!
+cd /opt/kkk/netbox && kubectl apply -f .
+!
+
+kubectl label nodes node-01 name=app-worker-node
+kubectl label nodes node-02 name=app-worker-node
+kubectl label nodes cplane-01 name=app-worker-node --overwrite
+
+cd /opt/kkk/redis && kubectl delete -f .
+!
+cd /opt/kkk/postgres/ && kubectl delete -f .
+!
+cd /opt/kkk/netbox && kubectl delete -f .
+!
