@@ -37,7 +37,8 @@ spec:
             topologyKey: "kubernetes.io/hostname"
       containers:
         - name: housekeeping
-          image: docker.io/testingsite279/uitoep:porl1
+#          image: docker.io/testingsite279/uitoep:porl1
+          image: docker.io/netboxcommunity/netbox:v4.0.2
           envFrom:
             - configMapRef:
                 name: netbox-env
