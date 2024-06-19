@@ -56,4 +56,4 @@ spec:
           resources:
             requests:
               cpu: "0.1"
-              memory: "2G"            
+              memory: "1G"            
