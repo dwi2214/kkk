@@ -8,7 +8,7 @@ spec:
     matchLabels:
       app: postgres-netbox
   serviceName: postgres-netbox
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: postgres-netbox
