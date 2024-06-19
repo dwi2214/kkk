@@ -38,7 +38,7 @@ spec:
       containers:
         - name: server
 #          image: docker.io/testingsite279/uitoep:porl1
-          image: docker.io/netboxcommunity/netbox:v4.0.2
+          image: docker.io/netboxcommunity/netbox:v4.0.5
           envFrom:
             - configMapRef:
                 name: netbox-env
