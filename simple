@@ -22,3 +22,5 @@ cd /opt/kkk/netbox && kubectl delete -f .
 !
 
 kubectl label nodes k3s-01 name=app-worker-node
+
+/opt/netbox/netbox/manage.py createsuperuser

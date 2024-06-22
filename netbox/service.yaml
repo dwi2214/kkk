@@ -21,7 +21,7 @@ metadata:
     app: netbox
   namespace: monitoring  
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: netbox
     role: server
