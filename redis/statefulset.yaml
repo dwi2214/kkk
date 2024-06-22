@@ -28,11 +28,19 @@ spec:
         name: "app-worker-node"
       affinity:
         podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-          - labelSelector:
-              matchLabels:
-                app: redis-netbox
-            topologyKey: "kubernetes.io/hostname"
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 50
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: redis-netbox
+                topologyKey: "kubernetes.io/hostname"
+            - weight: 50
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: redis-netbox
+                topologyKey: "kubernetes.io/hostname"
       containers:
         - name: redis
           image: redis:7
