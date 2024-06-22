@@ -46,12 +46,16 @@ spec:
             requests:
               cpu: "0.1"
               memory: "0.5G"
-  volumeClaimTemplates:
-    - metadata:
-        name: redis-netbox-data
-      spec:
-        accessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: 1Gi
+        volumes:
+        - name: redis-netbox-data
+          emptyDir: {}    
+  # volumeClaimTemplates:
+  #   - metadata:
+  #       name: redis-netbox-data
+  #     spec:
+  #       accessModes:
+  #         - ReadWriteOnce
+  #       resources:
+  #         requests:
+  #           storage: 1Gi
+        

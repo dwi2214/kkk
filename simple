@@ -1,6 +1,8 @@
-git clone https://github.com/dwi2214/kkk.git -b removevolume
+git clone https://github.com/dwi2214/kkk.git -b removevolume2
 alias kpod='kubectl get pod -n monitoring -o wide '
 
+cd /opt/kk/netbox && kubectl apply -f namespace.yaml
+!
 cd /opt/kkk/redis && kubectl apply -f .
 !
 cd /opt/kkk/postgres/ && kubectl apply -f .
