@@ -27,5 +27,6 @@ spec:
     role: server
   ports:
     - protocol: TCP
-      port: 8091
-      targetPort: http
+      port: 8080
+      targetPort: 8080
+      nodePort: 31769
