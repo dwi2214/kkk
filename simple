@@ -11,7 +11,7 @@ cd /opt/kkk/netbox && kubectl apply -f .
 !
 
 kubectl label nodes node-01 name=app-worker-node
-kubectl label nodes node-02 name=app-worker-node
+kubectl label nodes node-02 name=app-worker-node2 --overwrite
 kubectl label nodes cplane-01 name=app-worker-node --overwrite
 
 cd /opt/kkk/redis && kubectl delete -f .
