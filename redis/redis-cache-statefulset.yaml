@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-cache-netbox
+  namespace: monitoring  
+spec:
+  selector:
+    matchLabels:
+      app: redis-cache-netbox
+  serviceName: redis-cache-netbox
+  replicas: 2
+  selector:
+    matchLabels:
+      app: redis-cache-netbox
+
+
+  template:
+    metadata:
+      labels:
+        app: redis-cache-netbox
+    spec:
+      tolerations:
+      - key: "namespace"
+        operator: "Equal"
+        value: "staging"
+        effect: "NoSchedule"
+      nodeSelector:
+        name: "app-worker-node"
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 50
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: redis-cache-netbox
+                topologyKey: "kubernetes.io/hostname"
+            - weight: 50
+              podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: redis-cache-netbox
+                topologyKey: "kubernetes.io/hostname"
+      containers:
+        - name: redis-cache
+          image: docker.io/redis:7-alpine
+          command:
+            - sh
+            - -c
+            - "redis-server --requirepass ${REDIS_CACHE_PASSWORD}"
+          env:
+            - name: REDIS_CACHE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secret-netbox
+                  key: redis-cache-password
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+            - name: redis-cache-netbox-data
+              mountPath: /data
+          resources:
+            requests:
+              cpu: "0.1"
+              memory: "0.5G"
+
+      volumes:
+        - name: redis-cache-netbox-data
+          emptyDir: {}            

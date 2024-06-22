@@ -43,8 +43,17 @@ spec:
                 topologyKey: "kubernetes.io/hostname"
       containers:
         - name: redis
-          image: redis:7
-          args: ["redis-server", "--save", "60", "1", "--loglevel warning"]
+          image: docker.io/redis:7-alpine
+          command:
+            - sh
+            - -c
+            - "redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}"
+          env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: redis-secret-netbox
+                  key: redis-password
           ports:
             - containerPort: 6379
           volumeMounts:
@@ -54,16 +63,7 @@ spec:
             requests:
               cpu: "0.1"
               memory: "0.5G"
+
       volumes:
         - name: redis-netbox-data
-          emptyDir: {}    
-  # volumeClaimTemplates:
-  #   - metadata:
-  #       name: redis-netbox-data
-  #     spec:
-  #       accessModes:
-  #         - ReadWriteOnce
-  #       resources:
-  #         requests:
-  #           storage: 1Gi
-        
+          emptyDir: {}        

@@ -24,6 +24,6 @@ cd /opt/kkk/netbox && kubectl delete -f .
 
 kubectl label nodes k3s-01 name=app-worker-node
 
-kubectl exec -n monitoring -it $(kpod | grep Running | grep server | awk '{print $1}') -c server -- /bin/bash
+kubectl exec -n monitoring -it $(kubectl get pod -n monitoring -o wide | grep Running | grep server | awk '{print $1}') -c server -- /bin/bash
 
 /opt/netbox/netbox/manage.py createsuperuser
