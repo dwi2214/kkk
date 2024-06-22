@@ -12,7 +12,7 @@ cd /opt/kkk/netbox && kubectl apply -f .
 !
 
 kubectl label nodes node-01 name=app-worker-node
-kubectl label nodes node-02 name=app-worker-node2 --overwrite
+kubectl label nodes node-02 name=app-worker-node --overwrite
 kubectl label nodes cplane-01 name=app-worker-node --overwrite
 
 cd /opt/kkk/redis && kubectl delete -f .
@@ -24,6 +24,6 @@ cd /opt/kkk/netbox && kubectl delete -f .
 
 kubectl label nodes k3s-01 name=app-worker-node
 
-kubectl exec -n monitoring -it $(kpod | grep Running | grep server | awk '{print $1}') -c server -- /bin/sh
+kubectl exec -n monitoring -it $(kpod | grep Running | grep server | awk '{print $1}') -c server -- /bin/bash
 
 /opt/netbox/netbox/manage.py createsuperuser
